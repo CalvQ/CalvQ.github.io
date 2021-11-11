@@ -1473,7 +1473,7 @@ body.is-preload #bg:before {
     max-width: 100%;
     text-align: center;
     /* margin-top: 3.5rem; */
-    margin-top: 4%;
+    margin-top: 6vh;
     position: absolute;
 }
 
