@@ -1,2 +1,5 @@
 # calvq.github.io
-Preliminary website -- under development
+
+Preliminary website
+
+Homepage is available, child pages in development
