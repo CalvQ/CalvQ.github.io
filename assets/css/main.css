@@ -199,7 +199,7 @@ html {
     font-size: 16pt;
 }
 
-@media screen and (max-width: 1680px) {
+@media screen and (max-width: 9999px) {
     html {
         font-size: 12pt;
     }
@@ -1413,7 +1413,7 @@ body.is-preload #bg:before {
     display: block;
 }
 
-@media screen and (max-width: 1680px) {
+@media screen and (max-width: 9999px) {
     #wrapper {
         padding: 3rem 2rem;
     }
