@@ -4,13 +4,16 @@ console.log(w);
 let l1, l2;
 let range1, range2;
 
+let initialLoad = true;
+
 // Colors
 const BG_COLOR = [36, 36, 36];
 // const DEFAULT_CIRCLE_COLOR = [0, 98, 155];
 const DEFAULT_CIRCLE_COLOR = [36, 36, 36];
 // const DEFAULT_CIRCLE_COLOR = [0, 98, 155];
 
-const HOVER_CIRCLE_COLOR = [0, 83, 132];
+// const HOVER_CIRCLE_COLOR = [0, 83, 132];
+const HOVER_CIRCLE_COLOR = [0, 98, 155];
 // const LINE_COLOR = [230, 185, 0];
 const DEFAULT_LINE_COLOR = [235, 235, 235];
 // const LINE_COLOR = [198, 146, 20];
@@ -42,13 +45,10 @@ function draw() {
     let layer3 = [];
 
     // Store positions for the first layer
-    if (l1 < l2) {
-        range1 = 200;
-        range2 = 240;
-    } else {
-        range1 = 240;
-        range2 = 200;
-    }
+    let base = w / 2;
+    range1 = base + ((l1 - 3) * base) / 10;
+    range2 = base + ((l2 - 3) * base) / 10;
+
     for (let i = 0; i < l1; i++) {
         let x = (3 * w) / 16;
         let y = w / 2 - range1 / 2 + i * (range1 / (l1 - 1));
@@ -75,6 +75,11 @@ function draw() {
     hovering = isHovering([...layer1, ...layer2, ...layer3]);
 
     // Update colors of all circles based on hover state
+    if (initialLoad) {
+        if (millis() / 1000 > 1) {
+            initialLoad = false;
+        }
+    }
     updateAllColors();
 
     // Draw lines first
@@ -115,9 +120,14 @@ function isHovering(allLayers) {
 }
 
 function updateAllColors() {
-    let targetColor = hovering ? HOVER_CIRCLE_COLOR : DEFAULT_CIRCLE_COLOR;
+    let targetColor;
+    if (initialLoad) {
+        targetColor = HOVER_CIRCLE_COLOR;
+    } else {
+        targetColor = hovering ? HOVER_CIRCLE_COLOR : DEFAULT_CIRCLE_COLOR;
+    }
     for (let i = 0; i < layerColors.length; i++) {
-        layerColors[i] = lerpColorArray(layerColors[i], targetColor, 0.07);
+        layerColors[i] = lerpColorArray(layerColors[i], targetColor, 0.1);
     }
 }
 
@@ -125,7 +135,11 @@ function drawCircles(layer, colorOffset) {
     for (let i = 0; i < layer.length; i++) {
         let { x, y } = layer[i];
         fill(...layerColors[colorOffset + i]); // Use the interpolated color
-        ellipse(x, y, 40);
+        let circleSize = w / 10;
+        if (circleSize < 30) {
+            circleSize = 30;
+        }
+        ellipse(x, y, circleSize);
     }
 }
 
